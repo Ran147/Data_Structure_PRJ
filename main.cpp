@@ -27,14 +27,27 @@ Ingredientes * insertarIngrediente(string nombre, int cantidad, string unidad){
 struct Producto {
     string nombre;
     float precio;
-    Ingredientes *ingredientes; 
-    Producto *next; 
+    Ingredientes *ingredientes;
+    Producto *next;
 
     Producto(string nombreProd, float precioProd) {
         nombre = nombreProd;
         precio = precioProd;
         ingredientes = NULL;
         next = NULL;
+    }
+
+    void agregarIngrediente(string nombre, int cantidad, string unidad) {
+        Ingredientes *nuevoIngrediente = new Ingredientes(nombre, cantidad, unidad);
+        if (ingredientes == NULL) {
+            ingredientes = nuevoIngrediente;
+        } else {
+            Ingredientes *temp = ingredientes;
+            while (temp->next != NULL) {
+                temp = temp->next;
+            }
+            temp->next = nuevoIngrediente;
+        }
     }
 };
 
