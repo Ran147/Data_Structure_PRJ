@@ -24,6 +24,20 @@ Ingredientes * insertarIngrediente(string nombre, int cantidad, string unidad){
     return first_ingridient;
 }
 
+struct Producto {
+    string nombre;
+    float precio;
+    Ingredientes *ingredientes; 
+    Producto *next; 
+
+    Producto(string nombreProd, float precioProd) {
+        nombre = nombreProd;
+        precio = precioProd;
+        ingredientes = NULL;
+        next = NULL;
+    }
+};
+
 int main() {
 
     return 0;
