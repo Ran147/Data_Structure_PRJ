@@ -1,6 +1,9 @@
 #include <iostream>
 using namespace std;
 
+//STRUCT
+//-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
+
 //Estructura de clientes: Lista doble
 struct Cliente{
     string  nombre;
@@ -238,11 +241,78 @@ Ingredientes* insertarIngrediente(string nombre, int cantidad, string unidad){
     return listaIngredientes;
 }
 
-int main() {
+/*
+Método: buscarNegocioCliente
+Descripción: Este método busca si un negocio con una identificación específica ya está asociado a un cliente dado.
+Parámetros:
+    - idNegocio: Identificación del negocio que se desea buscar.
+    - cliente: Puntero al cliente del cual se desea verificar la asociación con el negocio.
+Retorno:
+    - bool: Retorna true si el negocio con la identificación específica está asociado al cliente dado, de lo contrario, retorna false.
+*/
+bool buscarNegocioCliente(int idNegocio, Cliente* cliente) {
+    // Inicializar el puntero al primer negocio asociado al cliente
+    Negocio* negocioActual = cliente->listaSimpleNegocios;
 
-    return 0;
+    // Recorrer la lista de negocios asociados al cliente
+    while (negocioActual != nullptr) {
+        // Verificar si el negocio actual tiene la misma identificación que la proporcionada
+        if (negocioActual->id == idNegocio)
+            return true; // El negocio ya está asociado a este cliente
+        // Avanzar al siguiente negocio en la lista
+        negocioActual = negocioActual->sig;
+    }
+    // El negocio no está asociado a este cliente
+    return false;
 }
-int main() {
 
+/*
+Método: insertarNegocioCliente
+Descripción: Este método permite insertar un nuevo negocio para un cliente, asegurando que la identificación del negocio no se repita entre los negocios asociados al cliente.
+Parámetros:
+    - idNegocio: Identificación única del negocio que se desea asociar al cliente.
+    - nombreNegocio: Nombre del negocio que se desea asociar al cliente.
+    - horarioNegocio: Horario de funcionamiento del negocio que se desea asociar al cliente.
+    - ubicacionNegocio: Ubicación del negocio que se desea asociar al cliente.
+    - cliente: Puntero al cliente al cual se desea asociar el nuevo negocio.
+Retorno: Este método no retorna ningún valor, solo realiza la inserción del nuevo negocio en la lista de negocios del cliente.
+*/
+void insertarNegocioCliente(int idNegocio, string nombreNegocio, string horarioNegocio, string ubicacionNegocio, Cliente* cliente) {
+    // Verificar si el negocio ya está asociado a este cliente
+    if (buscarNegocioCliente(idNegocio, cliente)) {
+        cout << "Error: El negocio ya está asociado a este cliente." << endl;
+        return;
+    }
+    // Crear el nuevo negocio
+    Negocio* nuevoNegocio = new Negocio(idNegocio, nombreNegocio, horarioNegocio, ubicacionNegocio);
+
+    // Insertar el nuevo negocio al principio de la lista de negocios del cliente
+    nuevoNegocio->sig = cliente->listaSimpleNegocios;
+    cliente->listaSimpleNegocios = nuevoNegocio;
+}
+
+/*
+Función: imprimirNegociosCliente
+Descripción: Esta función imprime en la consola los negocios asociados a un cliente específico.
+Parámetros:
+    - cliente: Puntero al cliente del cual se desean imprimir los negocios asociados.
+Retorno: Esta función no retorna ningún valor, solo imprime en la consola los detalles de los negocios asociados al cliente.
+*/
+void imprimirNegociosCliente(Cliente* cliente) {
+    // Imprimir encabezado con el nombre y apellido del cliente
+    cout << "Negocios asociados al cliente " << cliente->nombre << " " << cliente->apellido << ":" << endl;
+
+    // Inicializar el puntero al primer negocio asociado al cliente
+    Negocio* negocioActual = cliente->listaSimpleNegocios;
+
+    // Recorrer la lista de negocios asociados al cliente e imprimir sus detalles
+    while (negocioActual != nullptr) {
+        cout << "ID: " << negocioActual->id << ", Nombre: " << negocioActual->nombre << endl;
+        negocioActual = negocioActual->sig; // Avanzar al siguiente negocio en la lista
+    }
+}
+
+
+int main() {
     return 0;
 }
