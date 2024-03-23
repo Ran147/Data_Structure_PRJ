@@ -43,6 +43,7 @@ struct Negocio{
 
     //Puntero de la sublista simple
     Negocio * sig;
+    struct Producto* listaProductos;
 
     //Constructor
     Negocio(int id_, string nombre_, string horario_, string ubicacion_){
@@ -59,18 +60,24 @@ struct Negocio{
 struct Producto{
     string nombre;
     int precio;
+
+    //Punteros
     Producto* siguiente;
     Producto* anterior;
 
     struct Ingredientes* listaIngredientes; //sublista simple
+    struct Venta* listaVentas; //enlace a la estructura simple ventas
 
     //Constructor
     Producto(string nombre_, int precio_){
         nombre = nombre_;
         precio = precio_;
+
         siguiente = NULL;
         anterior = NULL;
+
         listaIngredientes = NULL;
+        listaVentas = NULL;
     }
 };
 
@@ -92,31 +99,39 @@ struct Ingredientes{
 
 }*listaIngredientes;
 
-//Estructura Inventario: lista simple
-struct Inventario{
-    int cantidad;
-
-    //agregar enlace a ingfrediente y fecha de vencimiento
-    Inventario(){
-
-    }
-};
-
-//Estructura de ventas:
+//Estructura de ventas: sub lista simple
 struct Venta {
     string fecha;
     int cantidadProducto;
     Producto* producto;
+
     Venta* next;
 
-    Venta(string fechaVenta, int cantidad, Producto* prod) {
-        fecha = fechaVenta;
-        cantidadProducto = cantidad;
-        producto = prod;
+    Venta(string fechaVenta_, int cantidad_, Producto* producto) {
+        fecha = fechaVenta_;
+        cantidadProducto = cantidad_;
+        producto = producto;
         next = NULL;
     }
 
 }*listaVentas;
+
+//Estructura Inventario: lista simple
+struct Inventario{
+    int cantidad;
+    Ingredientes* ingrediente;
+    string fechaVencimiento;
+
+    Inventario* listaInventario;
+
+    //agregar enlace a ingfrediente y fecha de vencimiento
+    Inventario(int cantidad_, Ingredientes* ingrediente_,string fechaVencimiento_){
+        cantidad = cantidad_;
+        ingrediente = NULL;
+        fechaVencimiento = fechaVencimiento_;
+        listaInventario = NULL;
+    }
+};
 
 //MÉTODOS
 //-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
@@ -310,6 +325,11 @@ void imprimirNegociosCliente(Cliente* cliente) {
         cout << "ID: " << negocioActual->id << ", Nombre: " << negocioActual->nombre << endl;
         negocioActual = negocioActual->sig; // Avanzar al siguiente negocio en la lista
     }
+}
+
+
+int main() {
+    return 0;
 }
 
 
